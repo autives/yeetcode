@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Code } from "../code/code.entity";
 
 @Entity('User')
 export class User {
@@ -8,6 +9,7 @@ export class User {
     @Column()
     name: string;
 
+    @Index()
     @Column({ unique: true })
     username: string;
 
@@ -16,4 +18,7 @@ export class User {
 
     @Column({ type: "bytea" })
     salt: Buffer;
+
+    @OneToMany((type) => Code, (code) => code.owner)
+    codes: Code[];
 }
