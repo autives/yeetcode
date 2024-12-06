@@ -5,9 +5,9 @@ import { User } from "../../user/user.entity";
 export abstract class UserOwnedEntity extends BaseEntity {
     @Index()
     @Column({ nullable: false })
-    ownerId: number;
+    ownerId: string;
     
-    @ManyToOne(() => User, (user) => user.codes, { nullable: false, eager: true })
+    @ManyToOne(() => User, { nullable: false, eager: true })
     @JoinColumn({ name: "ownerId" })
     owner: User;
 

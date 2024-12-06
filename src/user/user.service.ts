@@ -22,31 +22,12 @@ export class UserService {
     }
 
     async createUser(createUserDto: CreateUserDto): Promise<UserData> {
-	const { username, name, password } = createUserDto;
-
-	const user = this.userRepository.findOne({
-	    where: [{ username }]
-	});
-	if(!user) {
-	    throw new HttpException(
-		{message: `Username ${username} is already taken.`},
-		HttpStatus.BAD_REQUEST
-	    )
-	}
-
-	const salt = randomBytes(16);
-        const hashedPassword = await new Promise<Buffer>((resolve, reject) => {
-            pbkdf2(password, salt, 65000, 32, "sha256", (err, derivedKey) => {
-                if (err) reject(err);
-                resolve(derivedKey);
-            });
-        });
+	const { username, name, id } = createUserDto;
 
 	const newUser = new User();
+	newUser.id = id;
 	newUser.name = name;
 	newUser.username = username;
-	newUser.password = hashedPassword;
-	newUser.salt = salt;
 
 	const savedUser = await this.userRepository.save(newUser);
 	this.logger.log(`Created new user id: ${savedUser.id}, username: ${savedUser.username}`);

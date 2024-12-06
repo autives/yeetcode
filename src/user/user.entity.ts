@@ -1,10 +1,10 @@
-import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Code } from "../code/code.entity";
+import { Column, Entity, Index, OneToMany, PrimaryColumn } from "typeorm";
+import { Submission } from "../submission/submission.entity";
 
 @Entity('User')
 export class User {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryColumn() 
+    id: string;
 
     @Column()
     name: string;
@@ -13,12 +13,6 @@ export class User {
     @Column({ unique: true })
     username: string;
 
-    @Column({ type: "bytea"})
-    password: Buffer;
-
-    @Column({ type: "bytea" })
-    salt: Buffer;
-
-    @OneToMany((type) => Code, (code) => code.owner)
-    codes: Code[];
+    @OneToMany((type) => Submission, (sumbission) => sumbission.owner)
+    submissions: Submission[];
 }

@@ -1,7 +1,7 @@
 import { IsEnum, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
-import { Language } from "../code.entity";
+import { Language } from "../submission.entity";
 
-export class GetCodeDto {
+export class GetSubmissionDto {
     @IsNotEmpty()
     @IsNumber()
     ownerId: number;
